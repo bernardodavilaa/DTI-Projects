@@ -1,0 +1,82 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: cdcworker-agaddressen-pub
+  description: Solução para captura de registros em tabelas e publicação em tópicos corporativos
+  test: squad_tech_products_integracoes_digitais
+  annotations:
+    dev.azure.com/project-repo: Tribo Tech Products/cdcworker-agaddressen-pub
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/instance=cdcworker-agaddressen-pub'
+    sonarqube.org/project-key: cdcworker-agaddressen-pub
+    kubecost/deployment: cdcworker-agaddressen-pub
+  embedded:
+    - type: monitoring
+      providers:
+        - provider: grafana
+          templates:
+            - template: kubernetes-pods
+              title: "Kubernetes Pods"
+              metadata:
+                cluster: eks-tech-products
+                area: ti
+                dominio: integracoes-digitais
+                produto: cdcworker-agaddressen-pub
+                aplicacao: cdcworker-agaddressen-pub
+        - provider: datadog
+          templates:
+            - template: backstage-apm
+              title: "Datadog - APM"
+              metadata:
+                service: cdcworker-agaddressen-pub
+                service-http-client: cdcworker-agaddressen-pub
+  links:
+    - url: https://dev.azure.com/localiza/Tribo Tech Products/_git/cdcworker-agaddressen-pub
+      title: Repositório
+      icon: info
+    - url: https://dev.azure.com/localiza/Tribo Tech Products/_build?pipelineNameFilter=cdcworker-agaddressen-pub
+      title: Pipeline
+      icon: info
+    - url: https://sonarcloud.io/project/overview?id=cdcworker-agaddressen-pub
+      title: Sonar
+      icon: info
+    - url: https://monitoring-aws-np.localiza.dev/d/EMo-8KW4k/kubernetes-pods-backstage?orgId=1&refresh=1m&var-datasource=default&var-cluster=&var-area=ti&var-dominio=integracoes-digitais&var-produto=cdcworker-agaddressen-pub&var-application=cdcworker-agaddressen-pub&var-ambiente=dev    
+      title: Grafana dev
+      icon: info
+    - url: https://monitoring-aws-np.localiza.dev/d/EMo-8KW4k/kubernetes-pods-backstage?orgId=1&refresh=1m&var-datasource=default&var-cluster=&var-area=ti&var-dominio=integracoes-digitais&var-produto=cdcworker-agaddressen-pub&var-application=cdcworker-agaddressen-pub&var-ambiente=tst    
+      title: Grafana tst
+      icon: info
+    - url: https://monitoring-aws-prd.localiza.com/d/qAYz52MMz/kubernetes-pods-backstage?orgId=1&refresh=1m&var-datasource=default&var-cluster=&var-area=ti&var-dominio=integracoes-digitais&var-produto=cdcworker-agaddressen-pub&var-application=cdcworker-agaddressen-pub&var-ambiente=prd    
+      title: Grafana prd
+      icon: info
+    - url: "https://es-tech-products-np.localiza.dev/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24w,to:now))&_a=(columns:!(_source),filters:!(),interval:auto,query:(language:kuery,query:%22cdcworker-agaddressen-pub%22),sort:!())"
+      title: Kibana dev
+      icon: info
+    - url: "https://es-tech-products-prd.localiza.com/_plugin/kibana/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24w,to:now))&_a=(columns:!(_source),filters:!(),interval:auto,query:(language:kuery,query:%22cdcworker-agaddressen-pub%22),sort:!())"
+      title: Kibana prod
+      icon: info
+    - url: "https://dash-eks-tech-products-np.localiza.dev/#/search?namespace=ti-integracoes-digitais-cdcworker-agaddressen-pub-dev&q=cdcworker-agaddressen-pub"
+      title: Dashboard Kubernetes dev
+      icon: info
+    - url: "https://dash-eks-tech-products-np.localiza.dev/#/search?namespace=ti-integracoes-digitais-cdcworker-agaddressen-pub-tst&q=cdcworker-agaddressen-pub"
+      title: Dashboard Kubernetes tst
+      icon: info
+    - url: https://eks-tech-products-dev.localiza.dev/cdcworker-agaddressen-pub/health
+      title: Healthcheck dev
+      icon: info
+    - url: https://eks-tech-products-tst.localiza.dev/cdcworker-agaddressen-pub/health
+      title: Healthcheck tst
+      icon: info
+    - url: https://eks-tech-products-prd.localiza.com/cdcworker-agaddressen-pub/health
+      title: Healthcheck prd
+      icon: info
+    - url: https://app.datadoghq.com/apm/services/cdcworker-agaddressen-pub/operations/worker
+      title: Datadog worker
+      icon: info
+
+spec:
+  type: service
+  lifecycle: experimental
+  owner: squad_tech_products_integracoes_digitais
+  dependsOn:
+    - resource:default/eks-tech-products

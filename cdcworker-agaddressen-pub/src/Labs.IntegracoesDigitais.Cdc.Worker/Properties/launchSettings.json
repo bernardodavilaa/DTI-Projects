@@ -1,0 +1,50 @@
+{
+  "profiles": {
+    "Default": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "health",
+      "applicationUrl": "https://localhost:8001;http://localhost:8000",
+      "environmentVariables": {
+        "LOG_LEVEL": "Debug",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AMBIENTE": "dev",
+
+        /***** FROM ENVIRONMENT AND SECRETS *****/
+
+        "DB_INTEG_DIGIT_SYBASE_RABBIT_SYB_USR": "<a ser preenchido>",
+        "DB_INTEG_DIGIT_SYBASE_RABBIT_SYB_PWD": "<a ser preenchido>",
+
+        "REDIS_HOST": "172.25.77.239", // your wsl eth0 ip
+        "REDIS_PASSWORD": "redis",
+        "REDIS_PORT": "6379",
+        "REDIS_USE_SSL": "false",
+
+        "KAFKA_CONFLUENT_BROKER_URL": "localhost:9092",
+        "KAFKA_CONFLUENT_BROKER_KEY": " ",
+        "KAFKA_CONFLUENT_BROKER_SECRET": " ",
+        "KAFKA_CONFLUENT_SCHEMA_URL": "localhost:8081",
+        "KAFKA_CONFLUENT_SCHEMA_KEY": " ",
+        "KAFKA_CONFLUENT_SCHEMA_SECRET": " ",
+
+        "DD_AGENT_HOST": "172.25.77.239", // your wsl eth0 ip
+        "DD_SERVICE_NAME": "cdcworker-agaddressen-pub",
+        "DD_TAGS": "\"pod_name\": \"DEV-LOCAL-MACHINE\",\"tribo\": \"tech-products\",\"squad\": \"integracoes-digitais\"",
+
+        /***** FROM CONFIGS *****/
+        "APP_CDC_NAME": "agaddressen",
+        "APP_CDC_TABLE_NAME": "cdc_address_en",
+        "APP_CDC_CORRELATION_COLUMN": "__delivery_id_integ",
+        "APP_CDC_UNIQUE_COLUMNS": "cus_num,address_type,mod_date,mod_empl,__op",
+        "APP_CDC_PARTITION_COLUMNS": "cus_num",
+        "APP_CDC_ORDER_EXPRESSION": "__source_change_lsn",
+        "APP_CDC_TOPIC": "dev.rawrb.sybase.aguia.address_en",
+        "APP_CDC_START_DATETIME": "2024-01-25 00:00:00",
+        "SCHEMA_REGISTRY_SUBJECT": "dev.rawrb.sybase.aguia.address_en-value",
+        "SYBASE_CONNECTIONSTRING": "Server=syb-dev.localiza.corp;Port=4100",
+        "SYBASE_CONNECTION_DATABASE": "aguia_CDC",
+        "REDIS_DATABASE": "0"
+      }
+    }
+  }
+}
