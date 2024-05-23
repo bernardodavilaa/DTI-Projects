@@ -1,0 +1,8 @@
+site_name: recebimento-integracao-publicador-acl
+site_description: API genérica para criação de ACL de descida da SAP
+
+nav:
+  - Introdução: 'index.md'
+
+plugins:
+  - techdocs-core

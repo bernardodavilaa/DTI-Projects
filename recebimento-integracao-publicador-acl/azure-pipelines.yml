@@ -1,0 +1,159 @@
+trigger:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - 'master'
+      - 'main'
+
+resources:
+  repositories:
+    - repository: templatesconfig
+      type: git
+      name: 'Infraestrutura - Localiza Agile/TI.CICD.Configuration'
+      ref: refs/heads/main
+    - repository: templates
+      type: git
+      name: 'Infraestrutura - Localiza Agile/TI.CICD.Templates'
+      ref: refs/tags/8-stable
+    - repository: templatesbackstage
+      type: git
+      name: 'Infraestrutura - Localiza Agile/TI.CICD.Templates.Backstage'
+      ref: refs/tags/2-stable
+    - repository: mudanca
+      type: git
+      name: 'Tribo Tech Products/TI.CICD.Templates.GMUD'
+      ref: refs/tags/1-stable
+parameters:
+  - name: TechDocs
+    type: object
+    default:
+      enabled: false
+      dev: true
+      tst: true
+      prd: false
+# parametros de mudança
+  - name: NumeroDaMudanca
+    default: ' '
+  - name: JsonDeMudanca
+    default: ' '
+  - name: UsaArquivoJsonDeMudancaCustomizado
+    type: boolean
+    default: false
+  - name: NomeArquivoJsonDeMudancaCustomizado
+    default: ' '
+
+variables:
+  # pipeline variables
+  - name: CadeiaValor
+    value: cadeia-valor-padrao
+  - name: Area
+    value: fi
+  - name: Dominio
+    value: recebimento
+  - name: Tribo
+    value: financeiro
+  - name: Squad
+    value: recebimento e conciliacao
+  - name: Produto
+    value: acl
+  - name: AppLanguage
+    value: netcore
+  - name: AppVersion
+    value: 1.0.0
+  - name: ChartName
+    value: netcore30-web
+  - name: ChartVersion
+    value: 2.8
+  - name: Secrets
+    value: aws-tribo-tech-products,rabbitmq-rabbitmq-k8s-sc-pessoa-dmclientes
+  - name: PlataformaMonitoramento
+    value: datadog
+  - name: CPCodeDev
+    value:
+  - name: CPCodeTst
+    value:
+  - name: CPCodeStg
+    value:
+  - name: CPCodePrd
+    value:
+  - name: Lab
+    value: backend
+  - name: Criticidade
+    value: baixa
+
+# variaveis mudanca       -- ATENCAO Não mude os valores das variáveis associadas a parametros - Ajuste o item de configuracao
+  - name: NumeroDaMudanca
+    value: ${{  parameters.NumeroDaMudanca}}
+  - name: JsonDeMudanca
+    value: ${{  parameters.JsonDeMudanca}}
+  - name: UsaArquivoJsonDeMudancaCustomizado
+    value: ${{  parameters.UsaArquivoJsonDeMudancaCustomizado}}
+  - name: NomeArquivoJsonDeMudancaCustomizado
+    value: ${{  parameters.NomeArquivoJsonDeMudancaCustomizado}}
+
+  - name: ItemConfiguracao
+    value: recebimento-integracao-publicador-acl                                 # Item de configuração conforme registro no ServiceNow
+  - template: config.yml@templatesconfig
+  - template: yaml/config/vars.yml@templates
+
+stages:  
+  - template: yaml/pipelines/pipeline-k8s.yml@templates
+    parameters:
+      FerramentaDeDeploy: azure-devops               # azure-devops ou harness
+      ClusterKubernetesNP: $(ClusterAWSFinanceiroNP)
+      ClusterKubernetesPRD: $(ClusterAWSFinanceiroPRD)
+      FrameworkBuildTeste: netcore
+      netCoreVersion: '8.x'
+      TechDocs: ${{ parameters.TechDocs }}       
+      Ambientes:
+        dev:
+          DeployFeature: true          
+#          Testes:
+#            - Tipo: Componente
+#              Imagem: nunit
+        tst: true         
+#          Testes:
+#            - Tipo: Carga
+#              Imagem: gatling
+#            - Tipo: EndToEnd
+#              Imagem: nunit
+#            - Tipo: Integracao
+#              Imagem: nunit
+#            - Tipo: Mutante
+#              Imagem: netcore-3/x-stryker
+#              Depende:
+#                - Carga
+#                - EndToEnd
+        stg: false
+        prd: true          
+      K8sMaintenance:
+        enabled: false
+        dev:
+          enabled: false
+          DeleteApplication:
+            DestinationClusterToRemove:  $(ClusterAWSFinanceiroNP)
+            DestinationNamespaceToRemove: fi-recebimento-acl-dev
+        tst:
+          enabled: false
+          DeleteApplication:
+            DestinationClusterToRemove:  $(ClusterAWSFinanceiroNP)
+            DestinationNamespaceToRemove: fi-recebimento-acl-tst
+        stg:
+          enabled: false
+          DeleteApplication:
+            DestinationClusterToRemove: $(ClusterAWSFinanceiroPRD)
+            DestinationNamespaceToRemove: fi-recebimento-acl-stg
+        prd:
+          enabled: false
+          DeleteApplication:
+            DestinationClusterToRemove: $(ClusterAWSFinanceiroPRD)
+            DestinationNamespaceToRemove: fi-recebimento-acl-prd
+      Harness:
+        PipelineVersion: harness_cd_k8s_v8
+        EstrategiaDeDeploy: rolling # HARNESS => rolling, canary ou blue-green
+        ContinuousVerificationDev: # HARNESS => se desejar Continuous verification pos deploy defaultt true para todos
+          DataDogMetrics: false
+          DataDogLogs: false
+          Prometheus: false
+          ElasticSearch: false

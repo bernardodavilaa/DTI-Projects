@@ -1,0 +1,1504 @@
+{
+    "title": "[Localiza][financeiro] - recebimento-integracao-publicador-acl",
+    "description": "## Dashboard da aplica\u00e7\u00e3o recebimento-integracao-publicador-acl para monitoramento",
+    "author_handle": "mateus.ferraz@localiza.com",
+    "author_name": null,
+    "layout_type": "ordered",
+    "is_read_only": false,
+    "template_variables": [
+        {
+            "name": "service-rabbitmq",
+            "prefix": "service",
+            "available_values": [
+            "recebimento-integracao-publicador-acl-rabbitmq"
+            ],
+            "default": "recebimento-integracao-publicador-acl-rabbitmq"
+        },
+        {
+            "name": "service-http-client",
+            "prefix": "service",
+            "available_values": [
+                "recebimento-integracao-publicador-acl-http-client"
+            ],
+            "default": "recebimento-integracao-publicador-acl-http-client"
+        },
+        {
+            "name": "env",
+            "prefix": "env",
+            "available_values": [
+                "dev",
+                "prd",
+                "stg",
+                "tst"
+            ],
+            "default": "dev"
+        },
+        {
+            "name": "service",
+            "prefix": "service",
+            "available_values": [
+                "recebimento-integracao-publicador-acl"
+            ],
+            "default": "recebimento-integracao-publicador-acl"
+        },
+        {
+            "name": "cluster",
+            "prefix": "kube_cluster_name",
+            "available_values": [
+                "prd",
+                "eks-financeiro-prd.localiza.com",
+                "eks-financeiro-stg.localiza.com",
+                "eks-financeiro-tst.localiza.dev",
+                "eks-financeiro-dev.localiza.dev"
+            ],
+            "default": "*"
+        }
+    ],
+    "widgets": [
+        {
+            "id": 4183382187246234,
+            "definition": {
+            "title": "RabbitMQ",
+            "show_title": true,
+            "type": "group",
+            "layout_type": "ordered",
+            "widgets": [
+                {
+                "id": 8969146587420272,
+                "definition": {
+                    "title": "HITS",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "type": "query_value",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "query1"
+                        }
+                        ],
+                        "conditional_formats": [
+                        {
+                            "custom_bg_color": "#3667d9",
+                            "comparator": ">",
+                            "palette": "white_on_green",
+                            "value": 0
+                        }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                        {
+                            "query": "sum:trace.amqp.command.hits{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}.as_count()",
+                            "data_source": "metrics",
+                            "name": "query1",
+                            "aggregator": "sum"
+                        }
+                        ]
+                    }
+                    ],
+                    "autoscale": true,
+                    "custom_unit": " ",
+                    "precision": 2
+                },
+                "layout": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 1,
+                    "height": 1
+                }
+                },
+                {
+                "id": 6101565055668642,
+                "definition": {
+                    "title": "Requests/Sec",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "type": "query_value",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "query1"
+                        }
+                        ],
+                        "conditional_formats": [
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_red",
+                            "value": 10
+                        },
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_yellow",
+                            "value": 5
+                        },
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_green",
+                            "value": 0
+                        }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                        {
+                            "query": "sum:trace.amqp.command.hits{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}.as_rate()",
+                            "data_source": "metrics",
+                            "name": "query1",
+                            "aggregator": "avg"
+                        }
+                        ]
+                    }
+                    ],
+                    "autoscale": true,
+                    "custom_unit": " ",
+                    "precision": 2
+                },
+                "layout": {
+                    "x": 1,
+                    "y": 0,
+                    "width": 1,
+                    "height": 1
+                }
+                },
+                {
+                "id": 7437952963174976,
+                "definition": {
+                    "title": "Latencia Média",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "type": "query_value",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "query1"
+                        }
+                        ],
+                        "conditional_formats": [
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_red",
+                            "value": 5
+                        },
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_yellow",
+                            "value": 3
+                        },
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_green",
+                            "value": 0
+                        }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                        {
+                            "query": "avg:trace.amqp.command.duration{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}",
+                            "data_source": "metrics",
+                            "name": "query1",
+                            "aggregator": "avg"
+                        }
+                        ]
+                    }
+                    ],
+                    "autoscale": true,
+                    "custom_unit": "s",
+                    "precision": 2
+                },
+                "layout": {
+                    "x": 2,
+                    "y": 0,
+                    "width": 1,
+                    "height": 1
+                }
+                },
+                {
+                "id": 4843568802384340,
+                "definition": {
+                    "title": "Taxa de erro",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "type": "query_value",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "(query1 / query3 * 100)"
+                        }
+                        ],
+                        "conditional_formats": [
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_red",
+                            "value": 0.5
+                        },
+                        {
+                            "comparator": ">",
+                            "palette": "white_on_yellow",
+                            "value": 0.2
+                        },
+                        {
+                            "comparator": "<=",
+                            "palette": "white_on_green",
+                            "value": 0.2
+                        }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                        {
+                            "query": "sum:trace.amqp.command.errors{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}.as_count()",
+                            "data_source": "metrics",
+                            "name": "query1",
+                            "aggregator": "sum"
+                        },
+                        {
+                            "query": "sum:trace.amqp.command.hits{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}.as_count()",
+                            "data_source": "metrics",
+                            "name": "query3",
+                            "aggregator": "sum"
+                        }
+                        ]
+                    }
+                    ],
+                    "autoscale": true,
+                    "custom_unit": "%",
+                    "precision": 2
+                },
+                "layout": {
+                    "x": 3,
+                    "y": 0,
+                    "width": 1,
+                    "height": 1
+                }
+                },
+                {
+                "id": 3332271870229992,
+                "definition": {
+                    "title": "Detecção de anomalias na latência",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "show_legend": false,
+                    "legend_layout": "vertical",
+                    "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                    ],
+                    "type": "timeseries",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "alias": "Anomalias de Latência",
+                            "formula": "anomalies(query1, 'agile', 3)"
+                        }
+                        ],
+                        "queries": [
+                        {
+                            "query": "avg:trace.amqp.command.duration{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}",
+                            "data_source": "metrics",
+                            "name": "query1"
+                        }
+                        ],
+                        "response_format": "timeseries",
+                        "style": {
+                        "palette": "cool",
+                        "line_type": "solid",
+                        "line_width": "normal"
+                        },
+                        "display_type": "line"
+                    }
+                    ],
+                    "yaxis": {
+                    "include_zero": true,
+                    "scale": "linear",
+                    "label": "",
+                    "min": "auto",
+                    "max": "auto"
+                    },
+                    "markers": []
+                },
+                "layout": {
+                    "x": 0,
+                    "y": 1,
+                    "width": 4,
+                    "height": 2
+                }
+                },
+                {
+                "id": 7720930689902616,
+                "definition": {
+                    "title": "Top 5 Requests",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "show_legend": false,
+                    "legend_layout": "auto",
+                    "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                    ],
+                    "type": "timeseries",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "top(query1, 5, 'mean', 'desc')"
+                        }
+                        ],
+                        "queries": [
+                        {
+                            "query": "sum:trace.amqp.command.hits{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value} by {resource_name}.as_count()",
+                            "data_source": "metrics",
+                            "name": "query1"
+                        }
+                        ],
+                        "response_format": "timeseries",
+                        "style": {
+                        "palette": "dog_classic",
+                        "line_type": "solid",
+                        "line_width": "normal"
+                        },
+                        "display_type": "bars"
+                    }
+                    ]
+                },
+                "layout": {
+                    "x": 0,
+                    "y": 3,
+                    "width": 4,
+                    "height": 2
+                }
+                },
+                {
+                "id": 2104029039702254,
+                "definition": {
+                    "title": "Erros",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "show_legend": false,
+                    "legend_layout": "vertical",
+                    "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                    ],
+                    "type": "timeseries",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "query1"
+                        }
+                        ],
+                        "queries": [
+                        {
+                            "query": "sum:trace.amqp.command.errors{env:$env.value,service:$service-rabbitmq.value,kube_cluster_name:$cluster.value}.as_count()",
+                            "data_source": "metrics",
+                            "name": "query1"
+                        }
+                        ],
+                        "response_format": "timeseries",
+                        "style": {
+                        "palette": "warm",
+                        "line_type": "solid",
+                        "line_width": "normal"
+                        },
+                        "display_type": "bars"
+                    }
+                    ],
+                    "yaxis": {
+                    "include_zero": true,
+                    "scale": "linear",
+                    "label": "",
+                    "min": "auto",
+                    "max": "auto"
+                    },
+                    "markers": []
+                },
+                "layout": {
+                    "x": 0,
+                    "y": 5,
+                    "width": 2,
+                    "height": 2
+                }
+                },
+                {
+                "id": 2167823393119522,
+                "definition": {
+                    "title": "Latência Média",
+                    "title_size": "16",
+                    "title_align": "left",
+                    "show_legend": false,
+                    "legend_layout": "auto",
+                    "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                    ],
+                    "type": "timeseries",
+                    "requests": [
+                    {
+                        "formulas": [
+                        {
+                            "formula": "top(query1, 5, 'mean', 'desc')"
+                        }
+                        ],
+                        "queries": [
+                        {
+                            "query": "avg:trace.amqp.command{env:$env.value,service:$service-rabbitmq} by {resource_name}",
+                            "data_source": "metrics",
+                            "name": "query1"
+                        }
+                        ],
+                        "response_format": "timeseries",
+                        "style": {
+                        "palette": "dog_classic",
+                        "line_type": "solid",
+                        "line_width": "normal"
+                        },
+                        "display_type": "line"
+                    }
+                    ]
+                },
+                "layout": {
+                    "x": 2,
+                    "y": 5,
+                    "width": 2,
+                    "height": 2
+                }
+                }
+            ]
+            },
+            "layout": {
+            "x": 4,
+            "y": 0,
+            "width": 4,
+            "height": 10
+            }
+        },        {
+            "id": 8520437046854154,
+            "definition": {
+                "title": "Servico API",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 2512309700857774,
+                        "definition": {
+                            "title": "HITS",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "conditional_formats": [
+                                        {
+                                            "custom_bg_color": "#3667d9",
+                                            "comparator": ">",
+                                            "palette": "white_on_green",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.hits{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": " ",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 3758585468305948,
+                        "definition": {
+                            "title": "Requests/Sec",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 10
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 5
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_green",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.hits{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}.as_rate()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": " ",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 1,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8262677173941170,
+                        "definition": {
+                            "title": "Latencia M\u00e9dia",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1 + query2"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 5
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 3
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_green",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.aspnet_core.request.duration{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "query": "avg:trace.http.request.duration{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "s",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1213640327750146,
+                        "definition": {
+                            "title": "Taxa de erro",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "(query1 / query2 * 100)"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 0.5
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 0.2
+                                        },
+                                        {
+                                            "comparator": "<=",
+                                            "palette": "white_on_green",
+                                            "value": 0.2
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.errors{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        },
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.hits{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "%",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 3,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 3911691559594998,
+                        "definition": {
+                            "title": "Detec\u00e7\u00e3o de anomalias na lat\u00eancia",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "vertical",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Anomalias de Lat\u00eancia",
+                                            "formula": "anomalies(query1, 'agile', 3)"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.aspnet_core.request.duration{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 1,
+                            "width": 4,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 858984153004036,
+                        "definition": {
+                            "title": "Top 5 Requests",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "top(query1, 5, 'mean', 'desc')"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.hits{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value} by {resource_name}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "bars"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 3,
+                            "width": 4,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 4412130825123988,
+                        "definition": {
+                            "title": "Erros",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "vertical",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.errors{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value} by {resource_name}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "warm",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "bars"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 5,
+                            "width": 4,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 1234185990115626,
+                        "definition": {
+                            "title": "Lat\u00eancia M\u00e9dia",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "top(query1, 5, 'mean', 'desc')"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.aspnet_core.request{env:$env.value,service:$service.value} by {resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 7,
+                            "width": 4,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 5074868723928076,
+                        "definition": {
+                            "title": "Total Recursos Consumidos",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query2"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.aspnet_core.request.hits{env:$env.value,service:$service.value,kube_cluster_name:$cluster.value} by {resource_name}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query2"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "dog_classic"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 9,
+                            "width": 4,
+                            "height": 3
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 4,
+                "height": 13
+            }
+        },
+        {
+            "id": 3549613088031526,
+            "definition": {
+                "title": "Integracoes - HttpClient",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 7087132152216394,
+                        "definition": {
+                            "title": "HITS",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "custom_bg_color": "#3667d9",
+                                            "comparator": ">",
+                                            "palette": "white_on_green",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.http.request.hits{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": " ",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 6521506287294264,
+                        "definition": {
+                            "title": "Requests/Sec",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 10
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 5
+                                        },
+                                        {
+                                            "palette": "white_on_green",
+                                            "value": 0,
+                                            "comparator": ">"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.http.request.hits{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}.as_rate()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": " ",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 1,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 5600507360357228,
+                        "definition": {
+                            "title": "Latencia M\u00e9dia",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 5
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 3
+                                        },
+                                        {
+                                            "palette": "white_on_green",
+                                            "value": 0,
+                                            "comparator": ">"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.http.request.duration{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "s",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 7823305445427406,
+                        "definition": {
+                            "title": "Taxa de erro",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "((query1 + query2) / query3 * 100)"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 0.5
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 0.2
+                                        },
+                                        {
+                                            "comparator": "<=",
+                                            "palette": "white_on_green",
+                                            "value": 0.2
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.http.request.errors{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        },
+                                        {
+                                            "query": "sum:trace.http.request.hits.by_http_status{http.status_class:5xx,env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "sum"
+                                        },
+                                        {
+                                            "query": "sum:trace.http.request.hits{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query3",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "%",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 3,
+                            "y": 0,
+                            "width": 1,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 4762673959569866,
+                        "definition": {
+                            "title": "Detec\u00e7\u00e3o de anomalias na lat\u00eancia",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "vertical",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Anomalias de Lat\u00eancia",
+                                            "formula": "anomalies(query1, 'agile', 3)"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.http.request.duration{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 1,
+                            "width": 4,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 7291233748608252,
+                        "definition": {
+                            "title": "Top 5 Requests",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "top(query1, 5, 'mean', 'desc')"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.http.request.hits{env:$env.value,service:$service-http-client} by {resource_name}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "bars"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 3,
+                            "width": 4,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 1183293998465692,
+                        "definition": {
+                            "title": "Erros",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "vertical",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.http.request.errors{env:$env.value,service:$service-http-client} by {resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "warm",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "bars"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 5,
+                            "width": 2,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 6480709802426628,
+                        "definition": {
+                            "title": "Lat\u00eancia M\u00e9dia",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "top(query1, 5, 'mean', 'desc')"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.http.request{env:$env.value,service:$service-http-client} by {resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 5,
+                            "width": 2,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 1101268835045604,
+                        "definition": {
+                            "title": "Tempo de resposta",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1",
+                                            "limit": {
+                                                "count": 500,
+                                                "order": "desc"
+                                            }
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 10
+                                        },
+                                        {
+                                            "custom_bg_color": "#ba6912",
+                                            "comparator": ">",
+                                            "palette": "white_on_yellow",
+                                            "value": 6
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_green",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:trace.http.request.duration{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value} by {resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 7,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 6820457888687668,
+                        "definition": {
+                            "title": "Qtd de requisi\u00e7\u00f5es por rota",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1",
+                                            "limit": {
+                                                "count": 500,
+                                                "order": "desc"
+                                            }
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:trace.http.request.hits{env:$env.value,service:$service-http-client.value,kube_cluster_name:$cluster.value} by {resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 10,
+                            "width": 4,
+                            "height": 2
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 4,
+                "y": 0,
+                "width": 4,
+                "height": 13
+            }
+        }
+    ],
+    "notify_list": [],
+    "reflow_type": "fixed",
+    "tags": [],
+    "restricted_roles": []
+}

@@ -1,0 +1,62 @@
+image:
+  runtime:
+    so: "debian" # alpine, ubuntu, debian
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  host: eks-financeiro-tst.localiza.dev
+  path: /recebimento-integracao-publicador-acl
+  timeout: 60
+
+healthCheck: #Indica o status atual do servidor de API
+  enabled: true
+  path: /health
+  liveness:
+    enabled: true
+    path: /health # Ou /liveness-health
+
+env:
+  enabled: true
+  values:
+    LOG_LEVEL: "Information"
+    RABBITMQ_VHOST: "meu-virtualhost"
+    ASPNETCORE_ENVIRONMENT: "Test"
+    AMBIENTE: "tst"
+
+monitoring:
+  enabled: true
+  apm: "datadog"   # datadog, appdynamics
+  image:
+    pathDatadog: "registryll.azurecr.io/datadog/netcoreagent"
+    versionDatadog: "2.19.1"
+
+# qtde minima de replicas (deve ser igual a hpa.minReplicas)
+# considere no minimo 02 replicas para entrega da aplicacao em producao
+replicaCount: 2
+
+# horizontal pod auto scaling
+hpa:
+  enabled: true
+  minReplicas: 2  # quantidade minima de replicas
+  maxReplicas: 4  # a quantidade maxima de replicas deve ser obtida atraves do teste de carga
+  cpu:
+    averageUtilization: 110
+  memory:
+    averageUtilization: 110
+
+# definicao de consumo de recursos da aplicacao
+# - Lembrete: 01 core ou 01 cpu equivalem a 1000 milicores (1000m)
+#   Ex: 100m equivale a 10% de um 01 core e 10m equivale a 1% de 01 core.
+#
+# LEMBRETE: Os valores de limite (cpu e memory) devem ser no maximo 50% maiores que os valores de request.
+# ex: request.memory=140Mi => limits.memory=(140+50%) => limits.memory=210Mi
+resources:
+  requests: # minimo de recursos para funcionamento (considere o minimo para funcionamento como a carga normal de trabalho)
+    cpu: 60m
+    memory: 140Mi
+  limits: # limite maximo de recursos para consumo  (considere o limite maximo para funcionamento como a carga no pico de trabalho)
+    cpu: 90m
+    memory: 210Mi
