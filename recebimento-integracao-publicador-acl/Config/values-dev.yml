@@ -7,7 +7,7 @@ service:
 
 ingress:
   enabled: true
-  host: eks-financeiro-dev.localiza.dev
+  host: eks-financeiro-dev.dev
   path: /recebimento-integracao-publicador-acl
   timeout: 60
 

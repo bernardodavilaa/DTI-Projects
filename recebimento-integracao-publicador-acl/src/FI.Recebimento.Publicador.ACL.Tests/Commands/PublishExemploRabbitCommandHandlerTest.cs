@@ -1,7 +1,7 @@
 using BuildingBlock.CorrelationId.Services.Interfaces;
-using Localiza.BuildingBlocks.Logging.Models;
-using Localiza.BuildingBlocks.Logging.Services.Interfaces;
-using Localiza.BuildingBlocks.Logging.Enums;
+using .BuildingBlocks.Logging.Models;
+using .BuildingBlocks.Logging.Services.Interfaces;
+using .BuildingBlocks.Logging.Enums;
 using MassTransit;
 using Moq;
 using System;
@@ -18,7 +18,7 @@ namespace FI.Recebimento.Publicador.ACL.Tests.Commands;
 
 public class PublicarExemploRabbitCommandHandlerTest
 {
-	private readonly Mock<ILocalizaLabsLogger> mockLogger;
+	private readonly Mock<ILogger> mockLogger;
 	private readonly Mock<IPublishEndpoint> mockPublishExemploRabbit;
 	private readonly Mock<ICorrelationIdGeneratorService> mockCorrelationIdGeneratorService;
 
@@ -26,7 +26,7 @@ public class PublicarExemploRabbitCommandHandlerTest
 
 	public PublicarExemploRabbitCommandHandlerTest() 
 	{
-		mockLogger = new Mock<ILocalizaLabsLogger>();
+		mockLogger = new Mock<ILogger>();
 		mockPublishExemploRabbit = new Mock<IPublishEndpoint>();
 		mockCorrelationIdGeneratorService = new Mock<ICorrelationIdGeneratorService>();
 	}

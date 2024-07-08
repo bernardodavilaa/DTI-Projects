@@ -9,9 +9,9 @@ public class WeatherForecastController : ControllerBase
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILocalizaLabsLogger logger;
+    private readonly Logger logger;
 
-    public WeatherForecastController(ILocalizaLabsLogger logger)
+    public WeatherForecastController(ILogger logger)
     {
         this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }

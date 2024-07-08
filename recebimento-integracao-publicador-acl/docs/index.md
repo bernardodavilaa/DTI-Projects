@@ -17,7 +17,7 @@ ToDo: registrar os recursos da API (controllers)
 ## Pré-requisitos
 
 :heavy_check_mark: [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  
-:heavy_check_mark: [Docker](https://aws-dev.localiza.dev/portal/devops/container/containers-windows01.html?q=docker)
+:heavy_check_mark: [Docker](https://aws-dev..dev/portal/devops/container/containers-windows01.html?q=docker)
 
 ## Como executar
 
@@ -123,7 +123,7 @@ O diagrama a seguir demonstra em alto nível o fluxo principal da solução de o
 
 - Esta API expõe suas rotas para integrações por meio de uma API Gateway.
 - A tecnologia utilizada para este fim é o Sensedia.
-- Acesse o link a seguir para visualizar a API na plataforma: [https://manager-localiza.sensedia.com/api-manager/#/apis/overview/**?????**](https://manager-localiza.sensedia.com/api-manager/#/apis/overview/**?????**)
+- Acesse o link a seguir para visualizar a API na plataforma: [https://manager-.sensedia.com/api-manager/#/apis/overview/**?????**](https://manager-.sensedia.com/api-manager/#/apis/overview/**?????**)
 - **ToDo**: verificar se realmente é utilizado Api Gateway e ajustar o link
 
 ## Dependências
@@ -138,11 +138,11 @@ O diagrama a seguir demonstra em alto nível o fluxo principal da solução de o
         * RABBITMQ_VHOST: nome do VHOST que será utilizado para manter as filas
         * RABBITMQ_USER: usuário para acessr o servidor
         * RABBITMQ_PASSWORD: senha para acessr o servidor
-- Uso do SDK [BuildingBlock.CorrelationId](https://localiza.visualstudio.com/Arquitetura%20-%20Bibliotecas%20Open%20Source%20Localiza/_git/buildingblockcorrelationid-lib). Gerador de CorrelationId para serviços ASP.NET.  
+- Uso do SDK [BuildingBlock.CorrelationId](https://.visualstudio.com/Arquitetura%20-%20Bibliotecas%20Open%20Source%20/_git/buildingblockcorrelationid-lib). Gerador de CorrelationId para serviços ASP.NET.  
 :white_check_mark: Recebe o cabeçalho `X-Correlation-Id` da solicitação do cliente e gera um `CorrelationId` caso não tenha sido enviado pelo cliente  
 :white_check_mark: Retorna o cabeçalho `X-Correlation-Id` na resposta  
 :white_check_mark: Ativa o acesso ao `CorrelationId` durante a solicitação HTTP para que você possa fazer um registro personalizado  
-- Uso do SDK [Localiza.BuildingBlocks.Logging](https://localiza.visualstudio.com/Arquitetura%20-%20Bibliotecas%20Open%20Source%20Localiza/_git/buildingblocks-logging-netstandard). Gerador de Log para serviços ASP.NET.  
+- Uso do SDK [.BuildingBlocks.Logging](https://.visualstudio.com/Arquitetura%20-%20Bibliotecas%20Open%20Source%20/_git/buildingblocks-logging-netstandard). Gerador de Log para serviços ASP.NET.  
 - **ToDo**: incluir os recursos que a aplicação utilizada como banco de dados, mensageria, cache, relatório e apis externas
 
 ## Medidas de Sucesso

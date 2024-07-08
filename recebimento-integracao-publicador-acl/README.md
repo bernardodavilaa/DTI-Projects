@@ -11,7 +11,7 @@
 ## Pré-requisitos
 
 :heavy_check_mark: [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  
-:heavy_check_mark: [Docker](https://aws-dev.localiza.dev/portal/devops/container/containers-windows01.html?q=docker)
+:heavy_check_mark: [Docker]
 
 ## Como executar
 
@@ -100,23 +100,10 @@
     - Temos a secret rabbitmq-fi-recebimento-acl que injeta as variáveis abaixo e os valores de acordo com o ambiente:
         * RABBITMQ_VHOST: nome do VHOST que será utilizado para manter as filas
         * RABBITMQ_USER: usuário para acessr o servidor
-        * RABBITMQ_PASSWORD: senha para acessr o servidor
-- Uso do SDK [BuildingBlock.CorrelationId](https://localiza.visualstudio.com/Arquitetura%20-%20Bibliotecas%20Open%20Source%20Localiza/_git/buildingblockcorrelationid-lib). Gerador de CorrelationId para serviços ASP.NET.  
-:white_check_mark: Recebe o cabeçalho `X-Correlation-Id` da solicitação do cliente e gera um `CorrelationId` caso não tenha sido enviado pelo cliente  
-:white_check_mark: Retorna o cabeçalho `X-Correlation-Id` na resposta  
-:white_check_mark: Ativa o acesso ao `CorrelationId` durante a solicitação HTTP para que você possa fazer um registro personalizado  
-- Uso do SDK [Localiza.BuildingBlocks.Logging](https://localiza.visualstudio.com/Arquitetura%20-%20Bibliotecas%20Open%20Source%20Localiza/_git/buildingblocks-logging-netstandard). Gerador de Log para serviços ASP.NET.  
+        * RABBITMQ_PASSWORD: senha para acessr o servidor  
 - **ToDo**: incluir os recursos que a aplicação utilizada como banco de dados, mensageria, cache, relatório e apis externas
 
 ## Referências
-
-- [api](https://backstage.localiza.com/arte/chapters/integracao/habilitadores/tecnicas/api-rest)
-- [rest](https://backstage.localiza.com/arte/Engenharia/habilitadores/tecnicas/rest)
-- [.net](https://backstage.localiza.com/arte/chapters/engenharia/docs/habilitadores/frameworks/netcore6)
-- [entrypoints](https://backstage.localiza.com/arte/Engenharia/base-cientifica/definicoes-arquiteturais/plataforma/entrypoint/)
-- [Segurança de API](https://backstage.localiza.com/arte/chapters/cybersec/docs/base-cientifica/seguranca-rede-comunicacao/protecao-aplicativos/api/)
-- [OWASP API Security](https://backstage.localiza.com/arte/architectures/tribo-cyber-seguranca/docs/appsec/owasp_rest_security/)
-
 ---
 
 If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops).  

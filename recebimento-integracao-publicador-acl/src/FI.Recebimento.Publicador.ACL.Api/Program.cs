@@ -1,7 +1,6 @@
 using BuildingBlock.CorrelationId.ServiceCollectionExtensions;
 using System.Reflection;
 using FI.Recebimento.Publicador.ACL.Api.Extensions;
-using Localiza.BuildingBlocks.HealthChecks.Configuration;
 using FI.Recebimento.Publicador.ACL.Infrastructure;
 using FI.Recebimento.Publicador.ACL.Api.Middlewares;
 const string AMBIENTE_PRODUCAO = "prd";
@@ -10,8 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCorrelationIdGenerator();
 
 builder.Services
-    .AddLocalizaLabsLogging()
-    //ToDo: Validar se o LogLevel esta como LogLevel.Information e alterar para FI.Recebimento.Publicador.ACL.Api.Extensions.EnumExtensions.TryParseEnum<Localiza.BuildingBlocks.Logging.Enums.LogLevel>(Environment.GetEnvironmentVariable("LOG_LEVEL"))
+    .AddLogging()
     .SetLogLevel(EnumExtensions.TryParseEnum<LogLevel>(Environment.GetEnvironmentVariable("LOG_LEVEL")))
     .UseObfuscateSensiteData()
     .WithConsoleOutput()
@@ -74,10 +72,3 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Run();
-
-// ToDo: Validar se o build foi executado com sucesso
-// ToDo: Publicar a API no ambiente de desenvolvimento
-// ToDo: Excluir a classe de teste WeatherForecast.cs
-// ToDo: Configurar o API Gateway
-
-//https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0

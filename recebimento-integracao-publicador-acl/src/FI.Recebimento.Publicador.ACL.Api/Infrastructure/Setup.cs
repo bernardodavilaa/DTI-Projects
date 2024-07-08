@@ -1,5 +1,4 @@
 using FI.Recebimento.Publicador.ACL.Api.Infrastructure.RabbitMq;
-using Localiza.BuildingBlocks.HealthChecks.Configuration;
 using FI.Recebimento.Publicador.ACL.Infrastructure;
 using System.Linq;
 using System.Reflection;

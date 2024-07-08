@@ -4,13 +4,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using MediatR;
-using Localiza.BuildingBlocks.Logging.Models;
-using Localiza.BuildingBlocks.Logging.Services.Interfaces;
 using System.Threading.Tasks;
 using System;
 using System.Threading;
 using System.Collections.Generic;
-using BuildingBlock.CorrelationId.Services.Interfaces;
 using FI.Recebimento.Publicador.ACL.Api.Infrastructure.RabbitMq.Extensions;
 using FI.Recebimento.Publicador.ACL.Domain.AggregatesModel;
 
@@ -18,11 +15,11 @@ namespace FI.Recebimento.Publicador.ACL.Api.Commands;
 
 public class PublicarExemploRabbitCommandHandler : IRequestHandler<PublicarExemploRabbitCommand>
 {
-    private readonly ILocalizaLabsLogger logger;
+    private readonly Logger logger;
     private readonly IPublishEndpoint publishExemploRabbit;
     private readonly ICorrelationIdGeneratorService correlationIdGeneratorService;
 
-    public PublicarExemploRabbitCommandHandler(ILocalizaLabsLogger logger,
+    public PublicarExemploRabbitCommandHandler(ILogger logger,
         IPublishEndpoint publishExemploRabbit,
         ICorrelationIdGeneratorService correlationIdGeneratorService)
     {

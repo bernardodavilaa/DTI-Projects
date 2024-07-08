@@ -8,16 +8,6 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.ResponseCompression;
 global using Microsoft.OpenApi.Models;
 
-// Localiza namespaces
-global using Localiza.BuildingBlocks.Logging.Attributes;
-global using Localiza.BuildingBlocks.Logging.Configurations;
-global using Localiza.BuildingBlocks.Logging.Enums;
-global using Localiza.BuildingBlocks.Logging.Models;
-global using Localiza.BuildingBlocks.Logging.Services.Interfaces;
-global using Localiza.BuildingBlocks.Logging.Adapters;
-global using Localiza.BuildingBlocks.Logging.Filters;
-global using LogLevel = Localiza.BuildingBlocks.Logging.Enums.LogLevel;
-
 // Third Party Libs namespaces
 global using BuildingBlock.CorrelationId.ServiceCollectionExtensions;
 

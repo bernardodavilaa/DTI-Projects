@@ -1,5 +1,5 @@
 using FI.Recebimento.Publicador.ACL.Api.Commands; 
-using Localiza.BuildingBlocks.Logging.Services.Interfaces;
+using .BuildingBlocks.Logging.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -19,7 +19,7 @@ namespace FI.Recebimento.Publicador.ACL.Tests.Controllers;
 public class ExemploRabbitControllerTest
 {
     private readonly Mock<IExemploRabbitRepository> exemplorabbitRepositoryMock;
-    private readonly Mock<ILocalizaLabsLogger> loggerMock;
+    private readonly Mock<ILogger> loggerMock;
     private readonly Mock<IMediator> mediatorMock;
     private readonly ExemploRabbitController controller;
 
@@ -29,7 +29,7 @@ public class ExemploRabbitControllerTest
     public ExemploRabbitControllerTest()
     {
         exemplorabbitRepositoryMock = new Mock<IExemploRabbitRepository>();
-        loggerMock = new Mock<ILocalizaLabsLogger>();
+        loggerMock = new Mock<ILogger>();
         mediatorMock = new Mock<IMediator>();
         controller = new ExemploRabbitController(loggerMock.Object, mediatorMock.Object, exemplorabbitRepositoryMock.Object);
     }

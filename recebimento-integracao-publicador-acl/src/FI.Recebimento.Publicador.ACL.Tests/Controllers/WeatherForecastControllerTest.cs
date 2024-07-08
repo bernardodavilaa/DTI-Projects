@@ -1,5 +1,5 @@
 using FI.Recebimento.Publicador.ACL.Api.Controllers;
-using Localiza.BuildingBlocks.Logging.Services.Interfaces;
+using .BuildingBlocks.Logging.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -9,12 +9,12 @@ namespace FI.Recebimento.Publicador.ACL.Tests.Controllers;
 
 public class WeatherForecastControllerTest
 {
-    private readonly Mock<ILocalizaLabsLogger> mockLogger;
+    private readonly Mock<ILogger> mockLogger;
     private readonly WeatherForecastController weatherForecastController;
 
     public WeatherForecastControllerTest()
     {
-        this.mockLogger = new Mock<ILocalizaLabsLogger>();
+        this.mockLogger = new Mock<ILogger>();
         this.weatherForecastController = new WeatherForecastController(mockLogger.Object);
 
         Environment.SetEnvironmentVariable("LOG_LEVEL", "Debug");

@@ -1,5 +1,4 @@
 using MassTransit;
-using Localiza.BuildingBlocks.HealthChecks.Configuration;
 using System.Security.Authentication;
 using FI.Recebimento.Publicador.ACL.Domain.AggregatesModel;
 using FI.Recebimento.Publicador.ACL.Domain;
@@ -20,8 +19,6 @@ public static class RabbitMqSetup
     {
         services.AddMassTransit(masstransitConfig =>
         {
-            // ToDo: Solicitacao de acesso ao (RabbitMQ / vhost) - https://aws-dev.localiza.dev/portal/arquitetura/mensageria/message-brokers/rabbitmq/solicitacao-acesso-rabbitmq.html
-
             var host = Constantes.RabbitMq.Host;
             var vhost = Constantes.RabbitMq.Vhost;
             var port = Constantes.RabbitMq.Port;

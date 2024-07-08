@@ -13,7 +13,7 @@ public class ExceptionMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, ILocalizaLabsLogger logger)
+    public async Task InvokeAsync(HttpContext context, ILogger logger)
     {
         try
         {
@@ -34,7 +34,7 @@ public class ExceptionMiddleware
         }
     }
 
-    private static Task HandlingExceptionAsync(ILocalizaLabsLogger logger,
+    private static Task HandlingExceptionAsync(ILogger logger,
         HttpContext context,
         int statusCodes,
         string error,

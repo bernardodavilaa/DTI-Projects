@@ -1,8 +1,0 @@
-site_name: cdcworker-agaddressen-pub
-site_description: Solução para captura de registros em tabelas e publicação em tópicos corporativos
-
-nav:
-  - Introdução: 'index.md'
-
-plugins:
-  - techdocs-core
